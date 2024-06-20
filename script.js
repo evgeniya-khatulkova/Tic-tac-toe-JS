@@ -20,15 +20,15 @@ function interface(){
   sections.forEach(section => section.addEventListener('click', (event) => {
       activeSection = +event.currentTarget.dataset.number;
       [game.player1, game.player2].forEach(person =>{
+          if(person.active){
+              const reply = () => game.check(activeSection, person);
+              if(reply()){
+                  {event.currentTarget.innerText = person.symbol };
+                  game.checkWinCombination(person);
+              }
+          }
           person.active = !person.active;
       });
-      if(game.player1.active) {
-          const reply = () => game.check(activeSection, game.player1);
-          if(reply()) {event.currentTarget.innerText = game.player1.symbol };
-      } else {
-          const reply = () => game.check(activeSection, game.player2);
-          if(reply()) {event.currentTarget.innerText = game.player2.symbol };
-      }
   }));
 }
 
@@ -44,7 +44,6 @@ function gameFlow(){
           const index = available.gameboard.indexOf(choice);
           available.gameboard.splice(index, 1);
           player.playersCombination.push(choice);
-          // checkWinCombination(player);
           return true
       } else {
           console.log('wrong number');
@@ -61,7 +60,7 @@ function gameFlow(){
           return false
       }
   }
-  return{player1, player2, check}
+  return{player1, player2, check, checkWinCombination}
 }
 
 interface();
