@@ -1,0 +1,38 @@
+body{
+  background-color: blueviolet;
+}
+
+.board{
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.board, .output{
+  width: 400px;
+}
+
+.board, .output, .start{
+  margin: 0 auto;
+  border: black 3px solid;
+}
+
+.section{
+  border: 1px solid black;
+}
+
+.output{
+  height: 40px;
+}
+
+.output, .start{
+  background-color: black;
+  margin-top: 20px;
+}
+
+.start{
+  width: 100px;
+  color: aliceblue;
+  text-align: center;
+  padding: 10px;
+}
