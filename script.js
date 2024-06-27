@@ -12,24 +12,33 @@ function player(name, symbol){
 }
 
 function interface(){
-  const game = gameFlow();
   const sections = [...document.querySelectorAll('.section')];
+  const output = document.querySelector('.output');
+  sections.forEach(section => section.innerHTML = "");
 
-  let activeSection = null;
+  const game = gameFlow();
 
   sections.forEach(section => section.addEventListener('click', (event) => {
-      activeSection = +event.currentTarget.dataset.number;
-      [game.player1, game.player2].forEach(person =>{
-          if(person.active){
-              const reply = () => game.check(activeSection, person);
-              if(reply()){
-                  {event.currentTarget.innerText = person.symbol };
-                  game.checkWinCombination(person);
+      if(!game.player1.winner && !game.player2.winner){
+          const activeSection = +event.currentTarget.dataset.number;
+          [game.player1, game.player2].forEach(person =>{
+              if(person.active){
+                  const reply = () => game.check(activeSection, person);
+                  if(reply()){
+                      {event.currentTarget.innerHTML = person.symbol };
+                      if(game.checkTie()) {output.innerText = "It is a draw" };
+                      const isWinner = () => game.checkWinCombination(person);
+                      winnerDisplay(isWinner());
+                  }
               }
-          }
-          person.active = !person.active;
-      });
+              person.active = !person.active;
+          });
+      }
   }));
+
+  function winnerDisplay(isWinner){
+      if(isWinner) {output.innerText = game.player1.winner ? `${game.player1.name} won` : `${game.player2.name} won`};
+  }
 }
 
 function gameFlow(){
@@ -46,26 +55,22 @@ function gameFlow(){
           player.playersCombination.push(choice);
           return true
       } else {
-          console.log('wrong number');
           return false;
       }
  }
 
   const checkWinCombination = (player) => {
       if(player.playersCombination.length > 2 && winningCombination.some(subarray => subarray.every(el => player.playersCombination.includes(el)))) {
-          console.log('win');
           player.winner = true;
           return true;
       } else {
           return false
       }
   }
-  return{player1, player2, check, checkWinCombination}
+
+  const checkTie = (player) => {
+      return available.gameboard.length === 0;
+  }
+
+  return{player1, player2, check, checkWinCombination, checkTie}
 }
-
-interface();
-
-// 1. make move
-// 2. check available
-// 3. add to players combination
-// 4. check the combination
