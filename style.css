@@ -1,5 +1,6 @@
 body{
   background-color: blueviolet;
+  text-align: center;
 }
 
 .board{
@@ -8,11 +9,11 @@ body{
   grid-template-columns: repeat(3, 1fr);
 }
 
-.board, .output{
+.board, #output{
   width: 400px;
 }
 
-.board, .output, .start{
+.board, #output, .start{
   margin: 0 auto;
   border: black 3px solid;
 }
@@ -21,18 +22,18 @@ body{
   border: 1px solid black;
 }
 
-.output{
+#output{
   height: 40px;
+  line-height: 40px;
+  font-size: 1.5rem;
 }
 
-.output, .start{
+#output, .start{
   background-color: black;
   margin-top: 20px;
+  color: greenyellow;
 }
 
 .start{
-  width: 100px;
-  color: aliceblue;
-  text-align: center;
   padding: 10px;
 }
