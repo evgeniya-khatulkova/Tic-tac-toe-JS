@@ -1,38 +1,41 @@
 function interface(){
   const sections = [...document.querySelectorAll('.section')];
-  const output = document.querySelector('.output');
-  const game = gameFlow();
+  const {player1, player2, check, checkWinCombination, checkTie} = gameFlow();
   gameboardReset();
 
   sections.forEach(section => section.addEventListener('click', (event) => {
-      if(!game.player1.winner && !game.player2.winner){
-          const activeSection = +event.currentTarget.dataset.number;
-          [game.player1, game.player2].forEach(person =>{
+      if(!player1.winner && !player2.winner){
+          [player1, player2].forEach(person =>{
               if(person.active){
-                  const reply = () => game.check(activeSection, person);
-                  if(reply()){
-                      {event.currentTarget.innerHTML = person.symbol };
-                      person.symbol === "X" ? playerDisplay("0") : playerDisplay("X")
-                      if(game.checkTie()) {output.innerText = "It is a draw" };
-                      const isWinner = () => game.checkWinCombination(person);
-                      winnerDisplay(isWinner());
-                  }
+                  handleMove(person, event)
               }
               person.active = !person.active;
           });
       }
   }));
 
-  function gameboardReset(){
-      sections.forEach(section => section.innerHTML = "");
+  function handleMove(person, event){
+      const activeSection = +event.currentTarget.dataset.number;
+      const reply = check(activeSection, person);
+      if(reply){
+          {event.currentTarget.innerHTML = person.symbol };
+          person.symbol === "X" ? playerDisplay(player2.name) : playerDisplay(player1.name);
+          if(checkTie()) {output.innerText = "It is a draw" };
+          winnerDisplay(checkWinCombination(person));
+      }
   }
 
-  function playerDisplay(symbol){
-      output.innerText = `Nexy turn is for: ${symbol}`;
+  function gameboardReset(){
+      sections.forEach(section => section.innerHTML = "");
+      playerDisplay(player1.name);
+  }
+
+  function playerDisplay(name){
+      output.innerText = `Next turn is for: ${name}`;
   }
 
   function winnerDisplay(isWinner){
-      if(isWinner) {output.innerText = game.player1.winner ? `${game.player1.name} won` : `${game.player2.name} won`};
+      if(isWinner) {output.innerText = player1.winner ? `${player1.name} won` : `${player2.name} won`};
   }
 }
 
@@ -53,13 +56,14 @@ function gameFlow(){
   const player1 = player(prompt("Set the name of the first player"), "X");
   const player2 = player(prompt("Set the name of the second player"), "0");
   player1.active = true;
-  const available = gameBoard();
+  const { gameboard } = gameBoard();
+
   const winningCombination = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
 
   const check = (choice, player) => {
-      if(available.gameboard.includes(choice)){
-          const index = available.gameboard.indexOf(choice);
-          available.gameboard.splice(index, 1);
+      if(gameboard.includes(choice)){
+          const index = gameboard.indexOf(choice);
+          gameboard.splice(index, 1);
           player.playersCombination.push(choice);
           return true
       }
@@ -74,8 +78,8 @@ function gameFlow(){
       return false
   }
 
-  const checkTie = (player) => {
-      return available.gameboard.length === 0;
+  const checkTie = () => {
+      return gameboard.length === 0;
   }
 
   return{player1, player2, check, checkWinCombination, checkTie}
