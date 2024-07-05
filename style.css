@@ -1,39 +1,57 @@
+@font-face {
+    font-family: 'momstypewriterregular';
+    src: url('fonts/momt___-webfont.woff2') format('woff2'),
+         url('fonts/momt___-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body{
-  background-color: blueviolet;
-  text-align: center;
+    background-color: blueviolet;
+    text-align: center;
+    font: 1.3rem sans-serif;
 }
 
 .board{
-  height: 400px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .board, #output{
-  width: 400px;
+    width: 400px;
 }
 
 .board, #output, .start{
-  margin: 0 auto;
-  border: black 3px solid;
+    margin: 0 auto;
+    border: black 3px solid;
 }
 
 .section{
-  border: 1px solid black;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section > span{
+    z-index: 1;
 }
 
 #output{
-  height: 40px;
-  line-height: 40px;
-  font-size: 1.5rem;
+   padding: 20px;
 }
 
 #output, .start{
-  background-color: black;
-  margin-top: 20px;
-  color: greenyellow;
+    font:
+        1em 'momstypewriterregular',
+        monospace;
+    background-color: black;
+    margin-top: 20px;
+      color: greenyellow;
+    line-height: 1em;
 }
 
 .start{
-  padding: 10px;
+    padding: 10px;
 }
