@@ -1,6 +1,6 @@
 /// js /////////////////////////////////////////////////////
 
-(function interface(){
+function interface(){
   const sections = [...document.querySelectorAll('.section')];
   const {player1, player2, assignMove, checkWinCombination, checkTie} = gameFlow();
   gameboardReset();
@@ -41,7 +41,7 @@
   function winnerDisplay(isWinner){
       if(isWinner) {output.innerText = player1.winner ? `${player1.name} won` : `${player2.name} won`};
   }
-});
+};
 
 function gameBoard(){
   let sectionsAvailable = 9;
